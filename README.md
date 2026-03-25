@@ -1,1 +1,1 @@
-# streamlit-course
+# AI-course
