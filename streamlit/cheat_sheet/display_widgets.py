@@ -2,6 +2,12 @@ import streamlit as st
 import seaborn as sns
 data = sns.load_dataset("iris")
 
+# Use widgets' returned values in variables
+for i in range(int(st.number_input('Num:'))): pass
+if st.sidebar.selectbox('I:',['f']) == 'f': pass
+my_slider_val = st.slider('Quinn Mallory', 1, 88)
+st.write(my_slider_val)
+
 st.button('Hit me')
 st.data_editor(data)
 st.checkbox('Check me out')
