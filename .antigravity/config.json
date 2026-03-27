@@ -1,0 +1,7 @@
+{
+    "pythonInterpreter": ".venv\\Scripts\\python.exe",
+    "terminalInit": ".\\.venv\\Scripts\\Activate.ps1",
+    "debug": {
+        "useVenv": true
+    }
+}
