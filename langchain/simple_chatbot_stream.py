@@ -2,7 +2,7 @@
 from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
-llm = ChatOllama(model="deepseek-r1:14b") 
+llm = ChatOllama(model="gemma4:e2b", base_url="http://127.0.0.1:11434") 
 
 messages = [
     SystemMessage("너는 사용자를 도와주는 상담사야."),
@@ -29,7 +29,7 @@ while True:
             ai_message += chunk
     print('')
 	#③
-    message_only = ai_message.content.split("</think>")[1].strip()
+    message_only = ai_message.content.strip()
     messages.append(AIMessage(message_only))
 
     # print("AI: " + response.content)
