@@ -9,7 +9,6 @@ dependencies = [
     "jupyterlab-git>=0.52.0",
     "langchain-google-genai>=4.2.2",
     "seaborn>=0.13.2",
-    "serial>=0.0.97",
     "sqlalchemy==1.4.0",
     "streamlit>=1.55.0",
     "tabulate>=0.10.0",
