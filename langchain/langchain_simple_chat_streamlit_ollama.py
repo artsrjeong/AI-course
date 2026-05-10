@@ -19,7 +19,7 @@ def get_session_history(session_id: str):
     if session_id not in st.session_state["store"]:
         st.session_state["store"][session_id] = InMemoryChatMessageHistory()
     return st.session_state["store"][session_id]
-llm = ChatOllama(model="gemma2:latest", base_url="http://127.0.0.1:11434") 
+llm = ChatOllama(model="gemma4:e2b", base_url="http://127.0.0.1:11434") 
 with_message_history = RunnableWithMessageHistory(llm, get_session_history)
 
 config = {"configurable": {"session_id": "abc2"}}
@@ -36,19 +36,12 @@ for msg in st.session_state.messages:
 
 if prompt := st.chat_input():
     print('user:', prompt)  
+    st.session_state.messages.append(HumanMessage(prompt))
     st.chat_message("user").write(prompt)
 
-    response = llm.invoke([HumanMessage(prompt)])
-
-    try:
-        with st.chat_message("assistant").empty():
-            st.markdown(response.content)
-    
-    except Exception as e:
-        error_text = str(e)
-        if hasattr(e, 'response') and hasattr(e.response, 'text'):
-            error_text = f"{e}\nOllama Response: {e.response.text}"
-            
-        st.error(f"Ollama API 에러가 발생했습니다: {error_text}")
-        print("ERROR:", error_text)
+    response = with_message_history.invoke([HumanMessage(prompt)],config=config)
+    msg=response.content
+    st.session_state.messages.append(response)
+    st.chat_message("assistant").write(msg)
+    print('assistant:',msg)
 
