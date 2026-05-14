@@ -1,0 +1,2 @@
+npx @modelcontextprotocol/inspector uv run main.py
+http 연결은 npx @modelcontextprotocol/inspector 실행 시킨뒤 UI에서 localhost 와 port 설정, connection type은 'Via Proxy'로 설정
