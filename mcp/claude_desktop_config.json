@@ -1,0 +1,28 @@
+{
+  "preferences": {
+    "coworkWebSearchEnabled": true,
+    "coworkScheduledTasksEnabled": false,
+    "ccdScheduledTasksEnabled": false,
+    "epitaxyPrefs": {
+      "starred-local-code-sessions": [],
+      "starred-cowork-spaces": [],
+      "starred-session-groups": [],
+      "dframe-local-slice": {
+        "pinnedOrder": [],
+        "customGroupAssignments": {},
+        "customGroupOrder": {}
+      }
+    }
+  },
+"mcpServers": {
+    "my-uv-mcp-server": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "C:/Users/artsr/OneDrive/Project/AI/mcp-server",
+        "run",
+        "main.py"
+      ]
+    }
+  }
+}
