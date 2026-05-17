@@ -12,6 +12,7 @@ dependencies = [
     "playwright>=1.59.0",
     "pyautogui>=0.9.54",
     "pyperclip>=1.11.0",
+    "pyqt6>=6.11.0",
     "pyserial>=3.5",
     "seaborn>=0.13.2",
     "selenium>=4.43.0",
