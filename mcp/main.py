@@ -55,6 +55,48 @@ async def get_du_notices():
         finally:
             await browser.close()
 
+@mcp.tool()
+async def get_naver_sports_news():
+    """네이버에서 최신 스포츠 뉴스 소식을 가져옵니다."""
+    url = "https://sports.naver.com/"
+    
+    async with async_playwright() as p:
+        # headless=True(기본값)로 실행
+        browser = await p.chromium.launch()
+        page = await browser.new_page()
+        
+        try:
+            await page.goto(url, wait_until="networkidle")
+            
+            # 네이버 스포츠 메인에서 기사 제목(클래스에 title이 포함된 요소들) 추출
+            title_elements = await page.query_selector_all(".title")
+            
+            news_list = []
+            for el in title_elements:
+                title = (await el.inner_text()).strip()
+                if title and title not in news_list:
+                    news_list.append(title)
+            
+            # 제목을 찾지 못했을 경우 백업 플랜: 텍스트 길이가 15자 이상인 a 태그 추출
+            if not news_list:
+                links = await page.query_selector_all("a")
+                for link in links:
+                    text = (await link.inner_text()).strip()
+                    if text and len(text) > 15 and text not in news_list:
+                        news_list.append(text)
+                        
+            if not news_list:
+                return "스포츠 뉴스를 찾을 수 없습니다. 사이트 구조가 변경되었을 수 있습니다."
+                
+            # 최신 기사 최대 10개 반환
+            formatted_news = [f"🏅 {news}" for news in news_list[:10]]
+            return "\n".join(formatted_news)
+            
+        except Exception as e:
+            return f"네이버 스포츠 크롤링 에러 발생: {str(e)}"
+        finally:
+            await browser.close()
+
 # Run the server if the script is executed directly
 if __name__ == "__main__":
    print("Starting MCP server...")
