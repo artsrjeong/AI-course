@@ -1,6 +1,7 @@
-from mcp.server.fastmcp import FastMCP # Parameter is not strictly needed now, but good practice to keep if you add more complex params later
+from mcp.server.fastmcp import FastMCP
 import asyncio
 from playwright.async_api import async_playwright
+from datetime import datetime, timedelta
 
 # Create the FastMCP instance with stdio transport
 mcp = FastMCP()
@@ -94,6 +95,62 @@ async def get_naver_sports_news():
             
         except Exception as e:
             return f"네이버 스포츠 크롤링 에러 발생: {str(e)}"
+        finally:
+            await browser.close()
+
+@mcp.tool()
+async def get_weekly_top_news(keyword: str = None) -> str:
+    """
+    최근 1주일 동안 발생한 주요 뉴스를 Playwright를 통해 수집하고 요약하여 반환합니다.
+    keyword 인자가 주어지면 해당 키워드와 관련된 뉴스를 검색합니다.
+    """
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=7)
+
+    query = keyword if keyword else "뉴스"
+    # tbs=qdr:w 는 최근 1주일 필터
+    search_url = f"https://news.google.com/search?q={query}&hl=ko&gl=KR&ceid=KR:ko&tbs=qdr:w"
+
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page(locale="ko-KR")
+
+        try:
+            await page.goto(search_url, wait_until="domcontentloaded", timeout=30000)
+            # 추가 대기: 자바스크립트 렌더링 완료
+            await page.wait_for_timeout(3000)
+
+            articles = await page.query_selector_all("article")
+            results = []
+
+            for article in articles[:15]:
+                try:
+                    title_el = await article.query_selector("a[href*='articles']")
+                    if not title_el:
+                        continue
+                    title = (await title_el.inner_text()).strip()
+                    rel_link = await title_el.get_attribute("href")
+                    link = f"https://news.google.com{rel_link}" if rel_link else ""
+
+                    # 본문 요약 발췌
+                    snippet_el = await article.query_selector("h3 ~ div, div[data-n-tid], span[role='text']")
+                    snippet = (await snippet_el.inner_text()).strip() if snippet_el else ""
+
+                    results.append(f"- **{title}**\n  - **링크:** {link}\n  - **요약:** {snippet}")
+                except:
+                    continue
+
+            if not results:
+                return "뉴스를 찾을 수 없습니다. 사이트 구조가 변경되었거나 네트워크 오류일 수 있습니다."
+
+            header = f"### 📰 최근 1주일 주요 뉴스 브리핑 (기간: {start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')})"
+            if keyword:
+                header += f"\n\n**검색어:** {keyword}"
+
+            return header + "\n\n" + "\n\n".join(results[:10])
+
+        except Exception as e:
+            return f"### ❌ 뉴스 크롤링 중 오류 발생\n\n**에러 내용:** {str(e)}\n\n잠시 후 다시 시도해주세요. (참고: `playwright install`이 필요할 수 있습니다.)"
         finally:
             await browser.close()
 
