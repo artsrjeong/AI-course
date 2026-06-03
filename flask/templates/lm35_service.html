@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta http-equiv="refresh" content="3">
+<title>라즈베리파이4 LM35 온도 서비스</title>
+<style type="text/css">
+.auto-style1 {
+	border: 1px solid #808080;
+}
+.auto-style2 {
+	border: 1px solid #008080;
+}
+</style>
+</head>
+
+<body>
+<center>
+<br>
+<strong>라즈베리파이4 LM35 온도 서비스</strong>
+<br>
+<br>
+<table cellspacing="1" class="auto-style1" style="width: 70%">
+{% for i in result%} 
+  <tr>
+    <td class="auto-style2" style="width: 50%">시간: {{ i[0] }}</td>
+    <td class="auto-style2" style="width: 50%">온도: {{ i[1] }}</td>
+  </tr>
+{% endfor %}	
+</table>
+
+</center>
+</body>
+
+</html>
