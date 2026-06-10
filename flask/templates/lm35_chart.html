@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>라즈베리파이4 LM35 온도 서비스</title>
+<style type="text/css">
+.auto-style1 {
+	border: 1px solid #808080;
+}
+.auto-style2 {
+	border: 1px solid #008080;
+}
+</style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<body>
+<center>
+<br>
+<strong>라즈베리파이4 LM35 온도 서비스</strong>
+<br>
+<br>
+<br>
+
+<form method="post" action="lm35_chart_act">
+	검색 구간(YYYY-MM-DD HH:MM:SS 형식) : <input name="start" type="text"> ~ <input name="end" type="text">
+	<input name="Button1" type="submit" value="검색">
+</form>
+
+<table style="width: 100%">
+<tr>
+  <td width="50%">
+ <table cellspacing="1" class="auto-style1" style="width: 100%">
+{% for i in result%} 
+  <tr>
+    <td class="auto-style2" style="width: 50%">시간: {{ i[0] }}</td>
+    <td class="auto-style2" style="width: 50%">온도: {{ i[1] }}</td>
+  </tr>
+{% endfor %}	
+</table> 
+  </td>
+  
+  <td width="50%">
+<div>
+    <canvas id="Chart"></canvas>
+</div>
+  
+  </td>
+</tr>
+</table>
+<br>
+
+</center>
+</body>
+
+</html>
+
+
+<script>
+var ctx = document.getElementById('Chart').getContext('2d');
+var data = {
+	// The type of chart we want to create
+	type: 'line',
+	// The data for our dataset
+	data: {
+		labels: [ // 날짜
+			{% for i in result%} 
+			 '{{ i[0] }}',
+			{% endfor %}
+		],
+		datasets: [{
+			label: "온도 변화",
+			backgroundColor: 'rgb(255, 120, 132)',
+			fill:false,
+			borderColor: 'rgb(255, 128, 132)',
+			lineTension:0.5, // 값을 높이면 line이 곡션 형태가 됨
+			data: [ // 온도
+				{% for i in result%} 
+				 {{ i[1] }},
+				{% endfor %}
+			],
+		}]
+	},
+
+	// Configuration options go here
+    options: {
+        scales: {
+            xAxes: [{
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            }], 
+            yAxes: [{
+                ticks: {
+                    suggestedMin: 0, // Y축의 최고 값
+                    suggestedMax: 40 // Y축의 최대 값
+                }
+            }]
+        }
+    }
+}
+var chart = new Chart(ctx, data);
+</script>
