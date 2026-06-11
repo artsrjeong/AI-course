@@ -1,7 +1,7 @@
 import speech_recognition as sr
 from google import genai
 from gtts import gTTS
-import playsound
+from audioplayer import AudioPlayer
 import os
 
 # 1. Gemini 클라이언트 설정 (API 키 필요)
@@ -12,7 +12,7 @@ def speak(text):
     tts = gTTS(text=text, lang='ko')
     filename = 'voice.mp3'
     tts.save(filename)
-    playsound.playsound(filename)
+    AudioPlayer(filename).play(block=True)
     os.remove(filename)
 
 def listen_and_respond():
