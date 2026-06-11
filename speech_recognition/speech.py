@@ -3,9 +3,12 @@ from google import genai
 from gtts import gTTS
 from audioplayer import AudioPlayer
 import os
+from dotenv import load_dotenv
+load_dotenv()
+GOOGLE_API_KEY=os.getenv('GOOGLE_API_KEY')
 
 # 1. Gemini 클라이언트 설정 (API 키 필요)
-client = genai.Client(api_key="AIzaSyBrmisflH1ZIMvw0sH9SWsqdSKbL1mtCHw")
+client = genai.Client(api_key=GOOGLE_API_KEY)
 
 def speak(text):
     """텍스트를 음성으로 바꾸어 스피커로 출력하는 함수"""
