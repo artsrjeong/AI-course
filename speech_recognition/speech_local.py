@@ -1,5 +1,4 @@
 import speech_recognition as sr
-from google import genai
 from gtts import gTTS
 from audioplayer import AudioPlayer
 import os
@@ -7,14 +6,6 @@ from dotenv import load_dotenv
 import time
 
 load_dotenv()
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-
-# API 키 검증
-if not GEMINI_API_KEY:
-    raise ValueError("❌ GEMINI_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.")
-
-# 1. Gemini 클라이언트 설정 (API 키 필요)
-client = genai.Client(api_key=GEMINI_API_KEY)
 
 def speak(text):
     """텍스트를 음성으로 바꾸어 스피커로 출력하는 함수"""
@@ -24,12 +15,30 @@ def speak(text):
     AudioPlayer(filename).play(block=True)
     os.remove(filename)
 
+def simple_respond(user_input):
+    """간단한 키워드 기반 응답 (로컬, API 없음)"""
+    responses = {
+        "안녕": "안녕하세요! 반갑습니다.",
+        "안녕하세요": "안녕하세요! 뭘 도와드릴까요?",
+        "이름": "저는 음성 어시스턴트입니다.",
+        "시간": "지금 시간을 알려드릴게요.",
+        "날씨": "날씨 정보는 따로 확인이 필요합니다.",
+        "감사": "도움이 되어서 기쁩니다!",
+        "고마워": "별말씀을요!",
+    }
+    
+    # 입력된 텍스트에 포함된 키워드 찾기
+    for keyword, response in responses.items():
+        if keyword in user_input:
+            return response
+    
+    return "잠깐만요, 이해가 안 됩니다. 다시 말씀해 주실 수 있나요?"
+
 def listen_and_respond():
     r = sr.Recognizer()
-    r.energy_threshold = 4000  # 마이크 감도 조정
     
     # 사용 가능한 입력 마이크: [2] 웹캠, [4] USB 마이크, [34] USB2.0 Device 등
-    microphone_index = 3  # 기본값: 웹캠 마이크 (2 또는 4로 변경 가능)
+    microphone_index = 3
     
     try:
         # 마이크 접근
@@ -56,27 +65,12 @@ def listen_and_respond():
         user_input = r.recognize_google(audio, language='ko-KR')
         print(f"👤 사용자: {user_input}")
         
-        # Gemini API로 답변 생성 (재시도 로직)
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                response = client.models.generate_content(
-                    model='gemini-2.0-flash',  # 안정적인 모델
-                    contents=user_input
-                )
-                answer = response.text
-                print(f"🤖 Gemini: {answer}")
-                
-                # 답변을 음성으로 출력
-                speak(answer)
-                break
-                
-            except Exception as e:
-                if "503" in str(e) and attempt < max_retries - 1:
-                    print(f"⏳ 서버 과부하... {3 - attempt}초 후 재시도합니다.")
-                    time.sleep(3)
-                else:
-                    raise e
+        # 로컬 키워드 기반 응답 (API 사용 안 함)
+        answer = simple_respond(user_input)
+        print(f"🤖 어시스턴트: {answer}")
+        
+        # 답변을 음성으로 출력
+        speak(answer)
         
     except sr.UnknownValueError:
         print("❌ 음성을 이해하지 못했습니다.")
