@@ -1,0 +1,30 @@
+import json
+import requests
+
+# 위 단계에서 발급받은 access_token을 입력하세요
+access_token = "ga46iHLr4FI0cnKeHMjl8n-a8YbkCKAUAAAAAQoXEpYAAAGe-DQg19Q0RDl69jWm"
+
+url = "https://kapi.kakao.com/v2/api/talk/memo/default/send"
+
+headers = {"Authorization": f"Bearer {access_token}"}
+
+# 보낼 메시지 내용 설정 (텍스트 템플릿 양식)
+template_object = {
+    "object_type": "text",
+    "text": "파이썬에서 보낸 자동화 메시지입니다! 🐍💬",
+    "link": {
+        "web_url": "https://developers.kakao.com",
+        "mobile_web_url": "https://developers.kakao.com",
+    },
+    "button_title": "바로가기",
+}
+
+data = {"template_object": json.dumps(template_object)}
+
+response = requests.post(url, headers=headers, data=data)
+
+if response.status_code == 200:
+    print("메시지를 성공적으로 보냈습니다!")
+else:
+    print(f"메시지 전송 실패: {response.status_code}")
+    print(response.json())
