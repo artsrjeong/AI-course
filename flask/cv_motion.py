@@ -9,13 +9,14 @@ diff_compare = 10  # 달라진 픽셀 갯수 기준치 설정
 img_first = None
 img_second = None
 img_third = None
-
-cap = cv2.VideoCapture(-1, cv2.CAP_V4L)
+CAMERA_INDEX = 0
+cap = cv2.VideoCapture(CAMERA_INDEX)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # 영상의 폭을 320 으로 설정
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # 영상의 높이를 240 으로 설정
 
 ret, img_first = cap.read()  # 1번재 프레임 읽기
 ret, img_second = cap.read()  # 2번재 프레임 읽기
+
 
 def gen_frames():  
   while True:
