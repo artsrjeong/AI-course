@@ -61,9 +61,9 @@ def listen_and_respond():
         for attempt in range(max_retries):
             try:
                 response = client.models.generate_content(
-                    model='gemini-2.0-flash',  # 안정적인 모델
+                    model='gemini-2.0-flash-lite',  # 더 저렴하고 빠른 모델
                     contents=user_input
-                )
+                )   
                 answer = response.text
                 print(f"🤖 Gemini: {answer}")
                 
