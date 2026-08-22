@@ -1,6 +1,8 @@
-from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
-model = ChatOpenAI(model="gpt-4o-mini")
+model = ChatOllama(model="gemma4:e2b", base_url="http://127.0.0.1:11434") 
+
 
 from typing import Annotated # annotated는 타입 힌트를 사용할 때 사용하는 함수
 from typing_extensions import TypedDict # TypedDict는 딕셔너리 타입을 정의할 때 사용하는 함수
@@ -49,7 +51,7 @@ config = {"configurable": {"thread_id": "abcd"}}
 graph = graph_builder.compile(checkpointer=memory)
 
 #------------ 여기서부터 달라진 코드가 있습니다.   
-from langchain.schema import HumanMessage
+
 
 while True:
     user_input = input("You\t:")
