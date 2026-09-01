@@ -31,6 +31,7 @@ dependencies = [
     "sqlalchemy==1.4.0",
     "streamlit>=1.55.0",
     "tabulate>=0.10.0",
+    "tavily>=1.1.0",
     "tensorflow>=2.21.0",
     "tensorflow-datasets>=4.9.9",
     "transformers>=5.13.0",
