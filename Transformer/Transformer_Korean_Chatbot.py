@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# ![Transformer구조](Transformer1.png)
+
+# **RNN처럼 순차적으로 입력받는 구조가 아니라 Positional Encoding 필요**
+
+# ![Positional Encoding](Transformer2.png)
+
+# In[ ]:
 
 
 import numpy as np
@@ -9,13 +15,19 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 
-# In[2]:
+# In[ ]:
 
 
 tf.__version__
 
 
-# In[3]:
+
+# **임베딩백터(단어 하나를 숫자로 표현한 벡터)에 포지션 백터를 더해줌. 포지션 정보와 임베딩벡터 정보를 축약할 수 있음<br>임베딩 벡터내의 각 차원의 인덱스가 짝수일 대 사인함수, 홀수이면 코사인함수<br>  Sin Cosine 를 이용하면 pos 정보를 직교하는 sin cos 정보로 풍부하게 표현하고 i 가 커지면 주파수가 낮아지면서 미세한 위치 변화와 전체적인 변화를 알 수 있고 거리가 먼 단어 간의 위치를 표현할 수 있고 다양한 주기를 가진 파동을 조합하여 각 단어에 좌표를 찍어줌<br> i:임베딩벡터의 차원,d_model은 Transfomer의 출력 차원<br> sin(a + b) = sin(a)cos(b) + cos(a)sin(b)
+# cos(a + b) = cos(a)cos(b) - sin(a)sin(b) 공식이 있기 때문에 a와 b의 거리를 정보가 포함되게 된다**
+
+# ![PositionalEncoding](Transformer3.png)
+
+# In[ ]:
 
 
 # 최종 버전
@@ -59,7 +71,8 @@ class PositionalEncoding(tf.keras.layers.Layer):
 
 
 
-# In[4]:
+
+# In[ ]:
 
 
 sample_pos_encoding = PositionalEncoding(50, 128)
@@ -72,7 +85,16 @@ plt.colorbar()
 plt.show()
 
 
-# In[5]:
+
+# ![내적을 통한 Attention 계산](Transformer4.png)
+
+# **Query(Q) : 내가 어떤 정보를 찾지?, Key(K) : 내가 가진 정보 특징, Value(V): 내가 실제로 전달할 정보  
+# W_q,W_k,W_v 는 학습 과정에서 Weight가 구해짐   
+# Q행렬과 K행렬을 전치한 행렬을 곱하고, 소프트맥스 함수를 사용**
+
+# ![Q,K,V 학습](Transformer5.png)
+
+# In[ ]:
 
 
 def scaled_dot_product_attention(query, key, value, mask):
@@ -89,8 +111,9 @@ def scaled_dot_product_attention(query, key, value, mask):
   depth = tf.cast(tf.shape(key)[-1], tf.float32)
   logits = matmul_qk / tf.math.sqrt(depth)
 
-  # 마스킹. 어텐션 스코어 행렬의 마스킹 할 위치에 매우 작은 음수값을 넣는다.
+  # 마스킹. 어텐션 스코어 행렬의 마스킹 할 위치에 매우 작은 음수값을 넣는다. 매우 작은 값을 넣어서 Softmas 커칠 때 PAD 제거 및 Decoder에서 미래 단어 제거
   # 매우 작은 값이므로 소프트맥스 함수를 지나면 행렬의 해당 위치의 값은 0이 된다.
+  # 주로 패딩<PAD> 토큰이 있을 경우 굉장히 작은 음수값을 넣어서 마스킹되게 하여 Softmax 함수 지날 때 어텐션에서 제외하기 위한 연산
   if mask is not None:
     logits += (mask * -1e9)
 
@@ -104,7 +127,12 @@ def scaled_dot_product_attention(query, key, value, mask):
   return output, attention_weights
 
 
-# In[6]:
+
+# **Multi-Head Attention(차원을 num_heads로 쪼갬). 하나의 벡터를 선형 변환을 통해 다른 공간에 매핑<br>각 head마다 다른 W_Q,W_K,W_V 초기값을 가지고 학습 시작**
+
+# ![차원 백터를 num_heads로 나눔](Transformer6.png)
+
+# In[ ]:
 
 
 class MultiHeadAttention(tf.keras.layers.Layer):
@@ -128,10 +156,10 @@ class MultiHeadAttention(tf.keras.layers.Layer):
     # WO에 해당하는 밀집층 정의
     self.dense = tf.keras.layers.Dense(units=d_model)
 
-  # num_heads 개수만큼 q, k, v를 split하는 함수
+  # num_heads 개수만큼 q, k, v를 split하는 함수,  inputs:(batch_size,seq_len,d_model)->reshape->(batch_size,seq_len,num_heads,depth) -> transpose(batch_size,num_heads,seq_len,depth)
   def split_heads(self, inputs, batch_size):
     inputs = tf.reshape(
-        inputs, shape=(batch_size, -1, self.num_heads, self.depth))
+        inputs, shape=(batch_size, -1, self.num_heads, self.depth)) # -1은 여기 차원은 자동으로 계산해서 넣어줘. 전체 원소수는 유지하면서 ,나머지 차원으로 자동 계산
     return tf.transpose(inputs, perm=[0, 2, 1, 3])
 
   def call(self, inputs):
@@ -174,7 +202,10 @@ class MultiHeadAttention(tf.keras.layers.Layer):
     return outputs
 
 
-# In[7]:
+
+# **create_padding_mask 는 mask 되는 부분을 1로 바꿈<br> PADDING은 embedding에서 0 이니 tf.math.equal 함수에서 0 인 곳들을 True로 바꾸고 True 인곳을 tf.float32에서 1로 바꿈**
+
+# In[ ]:
 
 
 def create_padding_mask(x):
@@ -183,7 +214,10 @@ def create_padding_mask(x):
   return mask[:, tf.newaxis, tf.newaxis, :]
 
 
-# In[8]:
+
+# ![Add&Norm포함Encoder 구조](Transformer7.png)
+
+# In[ ]:
 
 
 def encoder_layer(dff, d_model, num_heads, dropout, name="encoder_layer"):
@@ -217,13 +251,14 @@ def encoder_layer(dff, d_model, num_heads, dropout, name="encoder_layer"):
       inputs=[inputs, padding_mask], outputs=outputs, name=name)
 
 
-# In[9]:
+
+# In[ ]:
 
 
 def encoder(vocab_size, num_layers, dff,
             d_model, num_heads, dropout,
             name="encoder"):
-  inputs = tf.keras.Input(shape=(None,), name="inputs")
+  inputs = tf.keras.Input(shape=(None,), name="inputs") #문장을 토큰화 해서 얻은 정수 ID 시퀀스(ex. [[12,55,103,0,0,0],[44,33,0,0,0,0])
 
   # 인코더는 패딩 마스크 사용
   padding_mask = tf.keras.Input(shape=(1, 1, None), name="padding_mask")
@@ -233,7 +268,7 @@ def encoder(vocab_size, num_layers, dff,
   embeddings = tf.keras.layers.Embedding(vocab_size, d_model)(inputs)
   embeddings = tf.keras.layers.Lambda(
     lambda x: x * tf.math.sqrt(tf.cast(d_model, tf.float32))
-)(embeddings)
+)(embeddings)    # Transformer 논문의 테크닉으로 embedding값은 작은데 positional encoding이 상대적으로 커서 문자의미보다 위치 정보만 크게 반영-> embedding의 스케일을 맞추기 위해 sqrt(d_model)을 곱함
   embeddings = PositionalEncoding(vocab_size, d_model)(embeddings)
   outputs = tf.keras.layers.Dropout(rate=dropout)(embeddings)
 
@@ -247,18 +282,24 @@ def encoder(vocab_size, num_layers, dff,
       inputs=[inputs, padding_mask], outputs=outputs, name=name)
 
 
-# In[10]:
+
+# In[ ]:
 
 
 # 디코더의 첫번째 서브층(sublayer)에서 미래 토큰을 Mask하는 함수
 def create_look_ahead_mask(x):
   seq_len = tf.shape(x)[1]
-  look_ahead_mask = 1 - tf.linalg.band_part(tf.ones((seq_len, seq_len)), -1, 0)
+  look_ahead_mask = 1 - tf.linalg.band_part(tf.ones((seq_len, seq_len)), -1, 0) # band_part는 삼각 행렬을 만드는 함수, 상삼각행렬을 만들고 1에서 빼서 미래 위치를 1로 만듬
   padding_mask = create_padding_mask(x) # 패딩 마스크도 포함
   return tf.maximum(look_ahead_mask, padding_mask)
 
 
-# In[11]:
+
+# ![Masked Multi-Head Self Attention을 사용한 Decoder](Transformer8.png)
+
+# **첫번째 서브층은 mask 인자값으로 look_ahead_mas, 두번째 서브층은 mask 인자값으로 padding_mask**
+
+# In[ ]:
 
 
 def decoder_layer(dff, d_model, num_heads, dropout, name="decoder_layer"):
@@ -308,7 +349,10 @@ def decoder_layer(dff, d_model, num_heads, dropout, name="decoder_layer"):
       name=name)
 
 
-# In[12]:
+
+# **num_layers개 만큼 디코더 쌓기**
+
+# In[ ]:
 
 
 def decoder(vocab_size, num_layers, dff,
@@ -343,7 +387,10 @@ def decoder(vocab_size, num_layers, dff,
       name=name)
 
 
-# In[13]:
+
+# **트랜스포머 조립, 인코더출력->디코더로 전달, 디코더 끝단-> 다중 클래스 분류(vocab_size 만큼 뉴런가지는 출력층) 추가**
+
+# In[ ]:
 
 
 def transformer(vocab_size, num_layers, dff,
@@ -387,15 +434,18 @@ def transformer(vocab_size, num_layers, dff,
   return tf.keras.Model(inputs=[inputs, dec_inputs], outputs=outputs, name=name)
 
 
-# In[14]:
+
+# **트랜스포머의 하이퍼파라미터 지정, 단어 집합의 크기는 임의로 9000, 층갯수는 4, 은닉층은 512, 인코더 디코더 입출력 차원 128**
+
+# In[ ]:
 
 
 small_transformer = transformer(
     vocab_size = 9000,
-    num_layers = 4,
+    num_layers = 4, #인코더와 디코더가 몇층으로 몇층으로 되어 있는지 지정
     dff = 512,
-    d_model = 128,
-    num_heads = 4,
+    d_model = 128,  #임베딩 벡터의 차원
+    num_heads = 4,  # 어텐션을 사용할 때 여러개로 분할해서 병렬로 어텐션 수행하고 결과값을 다시 합
     dropout = 0.3,
     name="small_transformer")
 
@@ -406,6 +456,9 @@ except ImportError:
     print("pydot 또는 graphviz가 설치되지 않아 모델 시각화를 건너뜁니다.")
 
 
+
+
+# **손실 함수 정의 : 다중 클래스 분류로 크로스 엔트로피 함수 사용**
 
 # In[ ]:
 
@@ -421,6 +474,9 @@ def loss_function(y_true, y_pred):
 
   return tf.reduce_mean(loss)
 
+
+
+# **학습률 스케줄러, 처음에는 학습률을 증가시키고, 어느 단계(warmup_step) 이후는 학습률을 점차적으로 떨어뜨림**
 
 # In[ ]:
 
@@ -441,6 +497,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     return tf.math.rsqrt(self.d_model) * tf.math.minimum(arg1, arg2)
 
 
+
 # In[ ]:
 
 
@@ -452,6 +509,7 @@ plt.xlabel("Train Step")
 
 
 # # 챗봇 구현
+
 
 # In[ ]:
 
@@ -466,13 +524,16 @@ import matplotlib.pyplot as plt
 import re
 
 
+
 # In[ ]:
 
 
 #urllib.request.urlretrieve("https://github.com/songys/Chatbot_data/ChatbotData.csv", filename="ChatBotData.csv")
 
-train_data = pd.read_csv('ChatBotData.csv')
+train_data = pd.read_csv('ChatBotData.csv',nrows=5000)
+#train_data = pd.read_csv('ChatBotData.csv')
 train_data.head()
+
 
 
 # In[ ]:
@@ -481,11 +542,15 @@ train_data.head()
 print('챗봇 샘플의 개수 :', len(train_data))
 
 
+
 # In[ ]:
 
 
 print(train_data.isnull().sum())
 
+
+
+# **구두점 처리->띄어쓰기로 변경**
 
 # In[ ]:
 
@@ -497,6 +562,7 @@ for sentence in train_data['Q']:
     sentence = re.sub(r"([?.!,])", r" \1 ", sentence)
     sentence = sentence.strip()
     questions.append(sentence)
+
 
 
 # In[ ]:
@@ -511,10 +577,12 @@ for sentence in train_data['A']:
     answers.append(sentence)
 
 
+
 # In[ ]:
 
 
 len(questions)
+
 
 
 # In[ ]:
@@ -523,6 +591,9 @@ len(questions)
 print(questions[:5])
 print(answers[:5])
 
+
+
+# **서브워드텍스트인코더로 질문,답변데이터로 부터 단어 집합(Vocabulary) 생성+ SOS_EOS 추가**
 
 # In[ ]:
 
@@ -538,6 +609,7 @@ START_TOKEN, END_TOKEN = [tokenizer.vocab_size], [tokenizer.vocab_size + 1]
 VOCAB_SIZE = tokenizer.vocab_size + 2
 
 
+
 # In[ ]:
 
 
@@ -546,11 +618,15 @@ print('종료 토큰 번호 :',END_TOKEN)
 print('단어 집합의 크기 :',VOCAB_SIZE)
 
 
+
+# **토크나이저로 정수 인코딩 테스트**
+
 # In[ ]:
 
 
 # 서브워드텍스트인코더 토크나이저의 .encode()를 사용하여 텍스트 시퀀스를 정수 시퀀스로 변환.
 print('Tokenized sample question: {}'.format(tokenizer.encode(questions[20])))
+
 
 
 # In[ ]:
@@ -570,6 +646,7 @@ original_string = tokenizer.decode(tokenized_string)
 print ('기존 문장: {}'.format(original_string))
 
 
+
 # In[ ]:
 
 
@@ -578,6 +655,9 @@ print ('기존 문장: {}'.format(original_string))
 for ts in tokenized_string:
   print ('{} ----> {}'.format(ts, tokenizer.decode([ts])))
 
+
+
+# **토큰화/정수  인코딩/시작 토큰과 종료 토큰 추가/ 패딩**
 
 # In[ ]:
 
@@ -588,7 +668,7 @@ MAX_LENGTH = 40
 # 토큰화 / 정수 인코딩 / 시작 토큰과 종료 토큰 추가 / 패딩
 def tokenize_and_filter(inputs, outputs):
   tokenized_inputs, tokenized_outputs = [], []
-  
+
   for (sentence1, sentence2) in zip(inputs, outputs):
     # encode(토큰화 + 정수 인코딩), 시작 토큰과 종료 토큰 추가
     sentence1 = START_TOKEN + tokenizer.encode(sentence1) + END_TOKEN
@@ -596,20 +676,22 @@ def tokenize_and_filter(inputs, outputs):
 
     tokenized_inputs.append(sentence1)
     tokenized_outputs.append(sentence2)
-  
+
   # 패딩
   tokenized_inputs = tf.keras.preprocessing.sequence.pad_sequences(
       tokenized_inputs, maxlen=MAX_LENGTH, padding='post')
   tokenized_outputs = tf.keras.preprocessing.sequence.pad_sequences(
       tokenized_outputs, maxlen=MAX_LENGTH, padding='post')
-  
+
   return tokenized_inputs, tokenized_outputs
+
 
 
 # In[ ]:
 
 
 questions, answers = tokenize_and_filter(questions, answers)
+
 
 
 # In[ ]:
@@ -619,6 +701,9 @@ print('질문 데이터의 크기(shape) :', questions.shape)
 print('답변 데이터의 크기(shape) :', answers.shape)
 
 
+
+# **길이 40을 맞추기 위해 0 패딩 확인**
+
 # In[ ]:
 
 
@@ -627,11 +712,13 @@ print(questions[0])
 print(answers[0])
 
 
+
 # In[ ]:
 
 
 print('단어 집합의 크기(Vocab size): {}'.format(VOCAB_SIZE))
 print('전체 샘플의 수(Number of samples): {}'.format(len(questions)))
+
 
 
 # In[ ]:
@@ -657,6 +744,7 @@ dataset = dataset.batch(BATCH_SIZE)
 dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
 
+
 # In[ ]:
 
 
@@ -664,6 +752,7 @@ dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
 print(answers[0]) # 기존 샘플
 print(answers[:1][:, :-1]) # 마지막 패딩 토큰 제거하면서 길이가 39가 된다.
 print(answers[:1][:, 1:]) # 맨 처음 토큰이 제거된다. 다시 말해 시작 토큰이 제거된다. 길이는 역시 39가 된다.
+
 
 
 # In[ ]:
@@ -687,6 +776,7 @@ model = transformer(
     dropout=DROPOUT)
 
 
+
 # In[ ]:
 
 
@@ -705,13 +795,26 @@ def accuracy(y_true, y_pred):
 model.compile(optimizer=optimizer, loss=loss_function, metrics=[accuracy])
 
 
+
 # In[ ]:
 
 
 EPOCHS = 50
+import os
 
-model.fit(dataset, epochs=EPOCHS)
+weight_file = 'transformer.weights.h5'
 
+if os.path.exists(weight_file):
+    print(f"저장된 모델 가중치({weight_file})를 불러옵니다.")
+    model.load_weights(weight_file)
+else:
+    print("새롭게 학습을 시작합니다.")
+    model.fit(dataset, epochs=EPOCHS)
+    model.save_weights(weight_file)
+    print(f"학습된 모델 가중치를 {weight_file}에 저장했습니다.")
+
+
+# **챗봇 평가용 함수. predict에서 evaluate 호출, evaluate 함수에서 preprocess_sentence 함수 호출<br>predict 함수는 evaluate 함수로 부터 전달 받은 챗봇 대답 정수 시퀀스를 문자열로 다시 디코딩하고 사용자에게 챗봇 대답 출력**
 
 # In[ ]:
 
@@ -755,6 +858,7 @@ def predict(sentence):
   return predicted_sentence
 
 
+
 # In[ ]:
 
 
@@ -764,10 +868,12 @@ def preprocess_sentence(sentence):
   return sentence
 
 
+
 # In[ ]:
 
 
-output = predict('영화 볼래?')
+output = predict('12시 땡 !')
+
 
 
 # In[ ]:
@@ -776,10 +882,12 @@ output = predict('영화 볼래?')
 output = predict("고민이 있어")
 
 
+
 # In[ ]:
 
 
 output = predict("너무 화가나")
+
 
 
 # In[ ]:
@@ -788,10 +896,12 @@ output = predict("너무 화가나")
 output = predict("게임하고싶은데 할래?")
 
 
+
 # In[ ]:
 
 
 output = predict("나 너 좋아하는 것 같아")
+
 
 
 # In[ ]:
@@ -800,4 +910,9 @@ output = predict("나 너 좋아하는 것 같아")
 output = predict("딥 러닝 자연어 처리를 잘 하고 싶어")
 
 
-# %%
+
+# In[ ]:
+
+
+
+
