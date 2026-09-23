@@ -1,9 +1,10 @@
 import streamlit as st
 
-from langchain_openai import ChatOpenAI  # 오픈AI 모델을 사용하는 랭체인 챗봇 클래스
+from langchain_ollama import ChatOllama
 from langchain_core.chat_history import InMemoryChatMessageHistory  # 메모리에 대화 기록을 저장하는 클래스
 from langchain_core.runnables.history import RunnableWithMessageHistory  # 메시지 기록을 활용해 실행 가능한 wrapper 클래스
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+
 
 
 st.title("💬 Chatbot")
@@ -22,7 +23,7 @@ def get_session_history(session_id: str):
         st.session_state["store"][session_id] = InMemoryChatMessageHistory()
     return st.session_state["store"][session_id]
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOllama(model="gemma4:e2b", base_url="http://127.0.0.1:11434")
 with_message_history = RunnableWithMessageHistory(llm, get_session_history)
 
 config = {"configurable": {"session_id": "abc2"}}

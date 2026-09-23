@@ -1,5 +1,5 @@
 import streamlit as st
-from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, ToolMessage
 
 from langchain_core.tools import tool
@@ -8,7 +8,7 @@ import pytz
 
 
 # 모델 초기화
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOllama(model="gemma4:e2b", base_url="http://127.0.0.1:11434")
 
 # 도구 함수 정의
 @tool
