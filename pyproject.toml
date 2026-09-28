@@ -15,6 +15,7 @@ dependencies = [
     "gtts>=2.5.4",
     "jupyterlab>=4.5.6",
     "jupyterlab-git>=0.52.0",
+    "langchain>=1.4.2",
     "langchain-google-genai>=4.2.2",
     "mcp[cli]>=1.27.1",
     "opencv-python>=4.13.0.92",
