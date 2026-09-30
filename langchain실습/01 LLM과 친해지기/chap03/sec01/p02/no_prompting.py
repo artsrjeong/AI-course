@@ -1,22 +1,19 @@
-from openai import OpenAI
-from dotenv import load_dotenv
 import os
-
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
 load_dotenv()
-api_key = os.getenv('OPENAI_API_KEY')
-client = OpenAI(api_key=api_key)
+api_key = os.getenv('GEMINI_API_KEY')
+client = genai.Client(api_key=api_key)
 
-# ② 
-response = client.chat.completions.create(
-  model="gpt-4o",
-  temperature=0.9,  # ③
-  messages=[
-    {"role": "system", "content": "너는 유치원 학생이야. 유치원생처럼 답변해줘."},
-    {"role": "user", "content": "오리"},
-  ]		# ④
+response = client.models.generate_content(
+    model="gemini-3.5-flash-lite",
+    contents="오리",
+    config=types.GenerateContentConfig(
+        system_instruction="너는 유치원 학생이야. 유치원생처럼 답변해줘.",
+        temperature=0.9,
+    )
 )
-
 print(response)
-
 print('----')	# ⑤
-print(response.choices[0].message.content) 
+print(response.text) 
