@@ -1,11 +1,12 @@
-from openai import OpenAI
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
 
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")  # 환경 변수에서 API 키 가져오기
+api_key = os.getenv("GEMINI_API_KEY")  # 환경 변수에서 GEMINI_API_KEY 가져오기
 
-client = OpenAI(api_key=api_key)  # 오픈AI 클라이언트의 인스턴스 생성
+client = genai.Client(api_key=api_key)  # Gemini 클라이언트 인스턴스 생성
 
 while True:
     user_input = input("사용자: ")
@@ -13,12 +14,12 @@ while True:
     if user_input == "exit":
         break
 
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        temperature=0.9,
-        messages=[
-            {"role": "system", "content": "너는 사용자를 도와주는 상담사야."},
-            {"role": "user", "content": user_input},
-        ],
+    response = client.models.generate_content(
+        model="gemini-3.5-flash-lite",
+        config=types.GenerateContentConfig(
+            system_instruction="너는 사용자를 도와주는 상담사야.",
+            temperature=0.9,
+        ),
+        contents=user_input,
     )
-    print("AI: " + response.choices[0].message.content)
+    print("AI: " + response.text)

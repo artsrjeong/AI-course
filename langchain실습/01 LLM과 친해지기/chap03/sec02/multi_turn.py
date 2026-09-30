@@ -1,33 +1,40 @@
-from openai import OpenAI  # 오픈AI 라이브러리를 가져오기
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
 
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")  # 환경 변수에서 API 키 가져오기
+api_key = os.getenv("GEMINI_API_KEY")
 
-client = OpenAI(api_key=api_key)  # 오픈AI 클라이언트의 인스턴스 생성
+client = genai.Client(api_key=api_key)
 
 # ①
-def get_ai_response(messages):
-    response = client.chat.completions.create(
-        model="gpt-4o",  # 응답 생성에 사용할 모델 지정
-        temperature=0.9,  # 응답 생성에 사용할 temperature 설정
-        messages=messages,  # 대화 기록을 입력으로 전달
+def get_ai_response(contents):
+    response = client.models.generate_content(
+        model="gemini-3.5-flash-lite",
+        config=types.GenerateContentConfig(
+            system_instruction="너는 사용자를 도와주는 상담사야.",
+            temperature=0.9,
+        ),
+        contents=contents,  # 대화 기록 전달
     )
-    return response.choices[0].message.content  # 생성된 응답의 내용 반환
+    return response.text
 
-messages = [
-    {"role": "system", "content": "너는 사용자를 도와주는 상담사야."},  # 초기 시스템 메시지
-]
+# 대화 기록 리스트 초기화
+contents = []
 
 while True:
-    user_input = input("사용자: ")  # 사용자 입력 받기
+    user_input = input("사용자: ")
 
-    if user_input == "exit":  # ② 사용자가 대화를 종료하려는지 확인인
+    if user_input == "exit":
         break
     
-    messages.append({"role": "user", "content": user_input})  # 사용자 메시지를 대화 기록에 추가 
-    ai_response = get_ai_response(messages)  # 대화 기록을 기반으로 AI 응답 가져오기
-    messages.append({"role": "assistant", "content": ai_response})  # AI 응답 대화 기록에 추가하기
+    # 사용자 메시지 추가 (Gemini 역할: user)
+    contents.append({"role": "user", "parts": [{"text": user_input}]})
+    
+    ai_response = get_ai_response(contents)
+    
+    # AI 메시지 추가 (Gemini 역할: model)
+    contents.append({"role": "model", "parts": [{"text": ai_response}]})
 
-    print("AI: " + ai_response)  # AI 응답 출력
+    print("AI: " + ai_response)
