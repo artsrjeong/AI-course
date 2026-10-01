@@ -8,6 +8,8 @@ dependencies = [
     "chromadb>=1.5.9",
     "ddgs>=9.15.0",
     "duckduckgo-search>=8.1.1",
+    "google>=3.0.0",
+    "google-genai>=2.26.0",
     "ipywidgets>=8.1.9",
     "langchain>=1.4.2",
     "langchain-chroma>=1.1.0",
@@ -18,4 +20,5 @@ dependencies = [
     "langgraph>=1.2.11",
     "pypdf>=6.16.1",
     "sentence-transformers>=6.0.0",
+    "streamlit>=1.64.0",
 ]
