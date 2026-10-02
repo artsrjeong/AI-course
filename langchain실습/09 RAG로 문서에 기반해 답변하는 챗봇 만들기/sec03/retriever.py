@@ -1,16 +1,18 @@
 # 임베딩 모델 선언하기
-from langchain_openai import OpenAIEmbeddings
-embedding = OpenAIEmbeddings(model='text-embedding-3-large')
+from langchain_huggingface import HuggingFaceEmbeddings
+
+embedding = HuggingFaceEmbeddings(
+    model_name="intfloat/multilingual-e5-large"
+)
 
 # 언어 모델 불러오기
-from langchain_openai import ChatOpenAI
-llm = ChatOpenAI(model="gpt-4o")
+from langchain_ollama import ChatOllama
+llm = ChatOllama(model="gemma4:e2b", base_url="http://127.0.0.1:11434")
 
 # Load Chroma store
 from langchain_chroma import Chroma
 print("Loading existing Chroma store")
-persist_directory = 'C:/github/gpt_agent_2025_easyspub/chap09/chroma_store'
-
+persist_directory = '../chroma_store'
 vectorstore = Chroma(
     persist_directory=persist_directory, 
     embedding_function=embedding
@@ -19,11 +21,13 @@ vectorstore = Chroma(
 # Create retriever
 retriever = vectorstore.as_retriever(k=3)
 
-# Create document chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.output_parsers import StrOutputParser # 문자열 출력 파서를 불러옵니다.
+# Create a chain that combines retrieved documents into the prompt.
+from langchain_classic.chains.combine_documents.stuff import create_stuff_documents_chain
 
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import StrOutputParser
+
+# QA 프롬프트
 question_answering_prompt = ChatPromptTemplate.from_messages(
     [
         (
@@ -34,12 +38,17 @@ question_answering_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-document_chain = create_stuff_documents_chain(llm, question_answering_prompt) | StrOutputParser()
+# Create the document-combination chain.
+document_chain = create_stuff_documents_chain(
+    llm,
+    question_answering_prompt,
+    output_parser=StrOutputParser(),
+)
 
-# query augmentation chain
+# Query augmentation chain
 query_augmentation_prompt = ChatPromptTemplate.from_messages(
     [
-        MessagesPlaceholder(variable_name="messages"), # 기존 대화 내용
+        MessagesPlaceholder(variable_name="messages"),
         (
             "system",
             "기존의 대화 내용을 활용하여 사용자의 아래 질문의 의도를 파악하여 명료한 한 문장의 질문으로 변환하라. 대명사나 이, 저, 그와 같은 표현을 명확한 명사로 표현하라. :\n\n{query}",

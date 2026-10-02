@@ -1,12 +1,10 @@
 import streamlit as st
-from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, ToolMessage
 import retriever
 
-
 # 모델 초기화
-llm = ChatOpenAI(model="gpt-4o-mini")
-
+llm = ChatOllama(model="gemma4:e2b", base_url="http://127.0.0.1:11434")
 # 사용자의 메시지 처리하기 위한 함수
 def get_ai_response(messages, docs):    
     response = retriever.document_chain.stream({
