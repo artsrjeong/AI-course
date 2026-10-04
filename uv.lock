@@ -78,6 +78,8 @@ dependencies = [
     { name = "trl" },
     { name = "webdriver-manager" },
     { name = "yfinance" },
+    { name = "youtube-search" },
+    { name = "youtube-transcript-api" },
 ]
 
 [package.metadata]
@@ -120,6 +122,8 @@ requires-dist = [
     { name = "trl", specifier = ">=1.8.0" },
     { name = "webdriver-manager", specifier = ">=4.0.2" },
     { name = "yfinance", specifier = ">=1.3.0" },
+    { name = "youtube-search", specifier = ">=2.2.0" },
+    { name = "youtube-transcript-api", specifier = ">=1.2.4" },
 ]
 
 [[package]]
@@ -6249,6 +6253,31 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/9b/fd/943a7d71ce98a40b9006daccba96a83837acadb8e55361f41c7a81873013/yfinance-1.3.0.tar.gz", hash = "sha256:42c4e64a889dab8eeaffd3a66d4ccf1baffd566910ca63fb6332283f8f9b8a40", size = 145297, upload-time = "2026-04-16T19:51:05.785Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/dc/bc/e46ed5dfb88c6f7af0f641ffb6227d32f484ea989a2987a52a9c35d17aa9/yfinance-1.3.0-py2.py3-none-any.whl", hash = "sha256:c89539f0cf6af026d570131189bd659a962e8fb942376ef8ff8913e77c9fca75", size = 133706, upload-time = "2026-04-16T19:51:04.298Z" },
+]
+
+[[package]]
+name = "youtube-search"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5f/13/153d6841d0a9850e956f2f99987185c5b8477cc36fbabca24c4acf0321ff/youtube_search-2.2.0.tar.gz", hash = "sha256:5398a7cd65d9b75a8bac27ef689ec044abab3cbfa1f20d19db0277659ac70d98", size = 3313, upload-time = "2025-12-06T15:52:32.393Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0f/3d/7285e86e6390801fb177763a9cf1d81762487f98b3872ab5e1080bb82602/youtube_search-2.2.0-py3-none-any.whl", hash = "sha256:bdffbb5b22d7a7c85a88e6eeb6b00c5b5dbd29ea7b95139d21b8b8dab2ca5871", size = 3554, upload-time = "2025-12-06T15:52:31.217Z" },
+]
+
+[[package]]
+name = "youtube-transcript-api"
+version = "1.2.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "defusedxml" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/60/43/4104185a2eaa839daa693b30e15c37e7e58795e8e09ec414f22b3db54bec/youtube_transcript_api-1.2.4.tar.gz", hash = "sha256:b72d0e96a335df599d67cee51d49e143cff4f45b84bcafc202ff51291603ddcd", size = 469839, upload-time = "2026-01-29T09:09:17.088Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/be/95/129ea37efd6cd6ed00f62baae6543345c677810b8a3bf0026756e1d3cf3c/youtube_transcript_api-1.2.4-py3-none-any.whl", hash = "sha256:03878759356da5caf5edac77431780b91448fb3d8c21d4496015bdc8a7bc43ff", size = 485227, upload-time = "2026-01-29T09:09:15.427Z" },
 ]
 
 [[package]]
