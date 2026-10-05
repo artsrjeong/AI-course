@@ -19,6 +19,7 @@ dependencies = [
     "langchain-ollama>=1.1.0",
     "langgraph>=1.2.11",
     "pypdf>=6.16.1",
+    "pytz>=2026.5",
     "sentence-transformers>=6.0.0",
     "streamlit>=1.64.0",
     "torchvision>=0.29.1",
