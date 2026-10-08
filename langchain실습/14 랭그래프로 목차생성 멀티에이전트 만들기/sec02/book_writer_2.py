@@ -40,6 +40,12 @@ def supervisor(state: State): # supervisor 에이전트 추가
         - communicator: AI 팀에서 해야 할 일을 스스로 판단할 수 없을 때 사용한다. 사용자에게 진행상황을 사용자에게 보고하고, 다음 지시를 물어본다. 
 
         아래 내용을 고려하여, 현재 해야할 일이 무엇인지, 사용할 수 있는 agent를 단답으로 말하라.
+        너는 반드시 아래 중 하나만 출력해야 한다:
+        - content_strategist
+        - communicator
+
+        그 외 어떤 문장도 출력하지 마라.
+
 
         ------------------------------------------
         previous_outline: {outline}
