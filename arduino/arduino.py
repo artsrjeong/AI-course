@@ -2,7 +2,7 @@ import serial
 import time
 
 # 장치 관리자에서 확인 포트로 수정하세요 (예: 'COM5', 'COM4' 등)
-target_port = 'COM5'
+target_port = 'COM4'
 
 try:
     #시리얼 포트 열기
