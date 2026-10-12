@@ -1,0 +1,30 @@
+{
+  "quote_info": {
+    "author": "세네카",
+    "quote_kr": "우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝없이 이어진 것처럼 행동한다.",
+    "quote_en": "It is not that we have a short time to live, but that we waste a lot of it."
+  },
+  "title": "당신이 매일 허비하고 있는 가장 소중한 것 (소름 주의)",
+  "scenes": [
+    {
+      "scene_number": 1,
+      "narration": "혹시 오늘 하루도 스마트폰을 보며 아무것도 하지 않은 채 흘려보내지 않았나요?",
+      "image_prompt": "Cinematic vertical 9:16 shot of a person sitting alone by a window at dusk, staring blankly at a glowing smartphone screen, moody lighting, emotional atmosphere, 8k resolution"
+    },
+    {
+      "scene_number": 2,
+      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 우리는 삶이 짧다고 불평하면서도, 마치 삶이 끝없이 이어진 것처럼 행동한다고 말이죠.",
+      "image_prompt": "A thoughtful marble bust of an ancient Roman philosopher in a dimly lit antique library, vertical 9:16 ratio, dramatic side lighting, moody aesthetic"
+    },
+    {
+      "scene_number": 3,
+      "narration": "내일은 오지 않을 수도 있습니다. 지금 이 순간, 당신이 가진 가장 확실한 자산은 바로 '지금'이라는 시간뿐입니다.",
+      "image_prompt": "Inspiring landscape with golden hour sunlight breaking powerfully through dark storm clouds over a vast horizon, vertical 9:16 aspect ratio, dramatic view"
+    },
+    {
+      "scene_number": 4,
+      "narration": "오늘을 당신의 마지막 날처럼 살아보세요. 그 진정한 깨달음이 당신의 삶을 바꿉니다. 구독하고 매일 영감을 받아가세요.",
+      "image_prompt": "Minimalist calm starry night sky with a single shooting star, deep blue and purple gradient, vertical 9:16, peaceful and emotional vibe"
+    }
+  ]
+}
