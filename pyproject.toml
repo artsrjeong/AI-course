@@ -19,6 +19,7 @@ dependencies = [
     "langchain>=1.4.2",
     "langchain-google-genai>=4.2.2",
     "mcp[cli]>=1.27.1",
+    "moviepy>=2.2.1",
     "opencv-python>=4.13.0.92",
     "peft>=0.19.1",
     "playwright>=1.59.0",

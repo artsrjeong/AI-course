@@ -3,32 +3,92 @@ import json
 import os
 import requests
 from gtts import gTTS  # 구글 TTS 사용
+from moviepy import AudioFileClip, ImageClip, concatenate_videoclips
 
 # 윈도우 한글 인코딩 깨짐 방지
 import io
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 # Pixabay API Key 설정 (본인의 키 입력)
 PIXABAY_API_KEY = "58000181-56d7c060e1abab72e931c6837"
 
+
+def create_shorts_from_scenes(
+    assets_dir="output/assets", output_path="final_shorts.mp4"
+):
+    clip_list = []
+    scene_index = 1
+
+    while True:
+        # 씬 파일 경로 정의 (예: output/assets/scene_1.jpg, output/assets/scene_1.mp3)
+        img_path = os.path.join(assets_dir, f"scene_{scene_index}.jpg")
+        aud_path = os.path.join(assets_dir, f"scene_{scene_index}.mp3")
+
+        # 해당 씬의 파일들이 존재하지 않으면 루프 종료 (마지막 씬 도달)
+        if not os.path.exists(img_path) or not os.path.exists(aud_path):
+            break
+
+        print(f"씬 {scene_index} 처리 중...")
+
+        # 1. 오디오 로드 및 길이 측정
+        audio_clip = AudioFileClip(aud_path)
+        duration = audio_clip.duration
+
+        # 2. 이미지를 오디오 길이만큼 보여주도록 설정
+        image_clip = ImageClip(img_path).with_duration(duration)
+
+        # 3. 이미지와 오디오를 결합하여 하나의 서브 클립 생성
+        video_clip = image_clip.with_audio(audio_clip)
+        clip_list.append(video_clip)
+
+        scene_index += 1
+
+    if not clip_list:
+        print("에러: 처리할 씬 파일이 없습니다.")
+        return
+
+    print(f"총 {len(clip_list)}개의 씬을 연결합니다...")
+
+    # 4. 모든 씬 클립을 순서대로 이어 붙이기 (concatenate)
+    final_video = concatenate_videoclips(clip_list)
+
+    # 5. 최종 쇼츠 비디오 파일로 렌더링
+    final_video.write_videofile(
+        output_path,
+        fps=24,
+        codec="libx264",
+        audio_codec="aac",
+        preset="medium",
+        bitrate="4000k",
+    )
+
+    print(f"최종 쇼츠 영상 생성 완료: {output_path}")
+
+
 def download_pixabay_image(query, output_path):
     """Pixabay API를 이용해 안전한 키워드로 이미지를 검색하고 다운로드"""
     # 씬 번호나 순서에 따라 무난한 배경 키워드 매칭
-    fallback_keywords = ["aesthetic background", "dark mood background", "cinematic landscape", "abstract texture"]
-    search_query = "aesthetic background" # 기본값
-    
+    fallback_keywords = [
+        "aesthetic background",
+        "dark mood background",
+        "cinematic landscape",
+        "abstract texture",
+    ]
+    search_query = "aesthetic background"  # 기본값
+
     # query가 너무 길거나 복잡하면 Pixabay가 에러를 내므로 단순 키워드 추출 시도
     if query:
         # 영어 포함 여부 확인 간단 체크 후, 너무 길면 기본 키워드로 대체
         if len(query) < 30 and all(ord(c) < 128 for c in query):
             search_query = query
-            
+
     url = f"https://pixabay.com/api/?key={PIXABAY_API_KEY}&q={requests.utils.quote(search_query)}&image_type=photo&orientation=vertical&safesearch=true&per_page=3"
-    
+
     try:
         response = requests.get(url)
         data = response.json()
-        
+
         if data.get("hits") and len(data["hits"]) > 0:
             image_url = data["hits"][0]["largeImageURL"]
             img_data = requests.get(image_url).content
@@ -49,15 +109,16 @@ def download_pixabay_image(query, output_path):
                 print(f"경고: 이미지를 찾지 못했습니다.")
     except Exception as e:
         print(f"에러: 이미지 다운로드 중 오류 발생 ({e})")
-        
+
+
 def main():
     # 입력 파일 경로 설정
     input_json_path = r"E:\Project\AI-course\n8n\output\input_data.json"
-    
+
     if not os.path.exists(input_json_path):
         print(f"에러: 입력 JSON 파일을 찾을 수 없습니다: {input_json_path}")
         sys.exit(1)
-        
+
     try:
         with open(input_json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -67,7 +128,7 @@ def main():
 
     title = data.get("title", "쇼츠_영상")
     scenes = data.get("scenes", [])
-    
+
     print(f"=== [쇼츠 자동화 & 에셋 다운로드 시작] ===")
     print(f"제목: {title}")
     print(f"총 씬 수: {len(scenes)}개\n")
@@ -85,7 +146,7 @@ def main():
         # 1. gTTS 오디오 생성 (.mp3)
         audio_path = os.path.join(output_dir, f"scene_{scene_num}.mp3")
         print(f"음성 생성 중: {narration[:20]}...")
-        tts = gTTS(text=narration, lang='ko', slow=False)
+        tts = gTTS(text=narration, lang="ko", slow=False)
         tts.save(audio_path)
         print(f"오디오 저장 완료: {audio_path}")
 
@@ -101,6 +162,10 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
 
     print("\n성공: 모든 에셋 준비 및 JSON 저장이 완료되었습니다.")
+    create_shorts_from_scenes(
+        r"E:\Project\AI-course\n8n\output\assets", "final_shorts.mp4"
+    )
+
 
 if __name__ == "__main__":
     main()
