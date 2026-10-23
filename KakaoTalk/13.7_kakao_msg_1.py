@@ -8,7 +8,7 @@ url = "https://kapi.kakao.com/v2/api/talk/memo/default/send"
 headers = {
   "Content-Type": "application/x-www-form-urlencoded",
   "Authorization": "Bearer " + \
-  "ga46iHLr4FI0cnKeHMjl8n-a8YbkCKAUAAAAAQoXEpYAAAGe-DQg19Q0RDl69jWm"
+  "hPPXqrpzP3yp27XaNTmgEAIKPmvyfrtsAAAAAQoNFdgAAAGhUx9BbdQ0RDl69jWm"
 }
 
 data = {
@@ -20,6 +20,8 @@ data = {
   },
  })
 }
+
+
 
 response = requests.post(url, headers=headers, data=data)
 print(response.status_code)

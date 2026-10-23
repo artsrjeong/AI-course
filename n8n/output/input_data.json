@@ -1,30 +1,30 @@
 {
   "quote_info": {
     "author": "세네카",
-    "quote_kr": "우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝없이 이어진 것처럼 행동한다.",
+    "quote_kr": "우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝없기라도 한 것처럼 행동한다.",
     "quote_en": "It is not that we have a short time to live, but that we waste a lot of it."
   },
-  "title": "당신이 매일 허비하는 '진짜' 시간의 정체",
+  "title": "당신이 매일 허비하고 있는 가장 소중한 것 (소름 주의)",
   "scenes": [
     {
       "scene_number": 1,
-      "narration": "혹시 당신도 오늘 하루를 또 흘려보냈다는 죄책감에 잠못들고 계신가요?",
-      "image_prompt": "Cinematic vertical 9:16 shot of a person sitting alone by a window at dusk, staring into the distance with deep thought, moody lighting, 8k resolution"
+      "narration": "혹시 오늘 하루도 '시간이 없다'며 한숨 쉬지 않으셨나요? 하지만 진짜 문제는 시간이 없는 게 아닙니다.",
+      "image_prompt": "Cinematic vertical 9:16 background photo of an hourglass with sand quickly slipping away, dark moody atmosphere, realistic lighting, 8k resolution"
     },
     {
       "scene_number": 2,
-      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 우리는 삶이 짧다고 불평하면서도, 마치 삶이 끝없이 이어진 것처럼 행동한다고 말이죠.",
-      "image_prompt": "A classical marble bust of a ancient Roman philosopher in dramatic moody lighting, vertical 9:16 ratio, artistic aesthetic"
+      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. '우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝없기라도 한 것처럼 행동한다.'",
+      "image_prompt": "A thoughtful ancient Roman philosopher statue standing in soft twilight, vertical 9:16 ratio, moody aesthetic, cinematic"
     },
     {
       "scene_number": 3,
-      "narration": "우린 영원히 살 것처럼 내일로 미루지만, 사실 우리에게 주어진 진짜 시간은 오늘 이 순간뿐입니다.",
-      "image_prompt": "Inspiring vertical 9:16 landscape with golden hour sunlight breaking through dark clouds over a quiet horizon, dramatic view"
+      "narration": "우린 영원히 살 것처럼 시간을 미루고 낭비합니다. 하지만 당신이 무심코 흘려보낸 오늘이, 누군가는 간절히 살고 싶었던 내일일 수 있습니다.",
+      "image_prompt": "Inspiring landscape with golden hour sunlight breaking through dark clouds, symbolizing fleeting time, vertical 9:16 aspect ratio, dramatic view"
     },
     {
       "scene_number": 4,
-      "narration": "오늘이라는 선물, 더 이상 미루지 마세요. 당신의 소중한 오늘을 응원합니다. 구독하고 매일 마음의 안식을 얻어가세요.",
-      "image_prompt": "Minimalist calm starry night sky with a single bright shooting star, vertical 9:16, peaceful and emotional vibe"
+      "narration": "오늘이라는 선물, 더 이상 미루지 마세요. 당신의 시간을 사랑하세요. 깊은 울림이 되었다면 구독을 눌러주세요.",
+      "image_prompt": "Minimalist calm starry night sky with a single shooting star, vertical 9:16, peaceful and emotional vibe, high end"
     }
   ]
 }

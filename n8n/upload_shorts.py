@@ -7,6 +7,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
+# 윈도우 한글 인코딩 깨짐 방지
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+
 # YouTube API 범위 설정 (영상 업로드 권한)
 SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
 
@@ -82,8 +86,8 @@ def upload_video(file_path, title, description, category_id="22", privacy_status
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="YouTube Shorts 자동 업로드 스크립트")
-    parser.add_argument('--file', required=True, help="업로드할 MP4 파일 경로")
-    parser.add_argument('--title', required=True, help="유튜브 제목 (#Shorts 포함 권장)")
+    parser.add_argument('--file', required=True, default="final_shorts.mp4",help="업로드할 MP4 파일 경로")
+    parser.add_argument('--title', required=True, default="YouTube Shorts", help="유튜브 제목 (#Shorts 포함 권장)")
     parser.add_argument('--description', default="", help="유튜브 영상 설명")
     parser.add_argument('--privacy', default="private", choices=["private", "public", "unlisted"], 
                         help="공개 범위 (private: 비공개, unlisted: 일부공개, public: 공개)")
