@@ -24,6 +24,8 @@ dependencies = [
     "mcp[cli]>=1.27.1",
     "moviepy>=2.2.1",
     "opencv-python>=4.13.0.92",
+    "opentelemetry-api==1.44.0",
+    "opentelemetry-sdk==1.44.0",
     "peft>=0.19.1",
     "playwright>=1.59.0",
     "pyaudio>=0.2.14",
