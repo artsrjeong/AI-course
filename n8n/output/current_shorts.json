@@ -1,30 +1,30 @@
 {
   "quote_info": {
     "author": "세네카",
-    "quote_kr": "우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝없기라도 한 듯 행동한다.",
+    "quote_kr": "우리가 삶이 짧다고 불평하는 것은, 삶이 실제로 짧기 때문이 아니라 우리가 삶을 헛되이 보내기 때문이다.",
     "quote_en": "It is not that we have a short time to live, but that we waste a lot of it."
   },
-  "title": "당신이 매일 시간을 낭비하는 진짜 이유",
+  "title": "당신이 매일 밤 후회하는 진짜 이유",
   "scenes": [
     {
       "scene_number": 1,
-      "narration": "혹시 오늘 하루도 아무것도 한 게 없다는 자책 속에 잠들고 계신가요?",
-      "image_prompt": "Cinematic vertical 9:16 photo of a person staring out a window during twilight, deep contemplation, realistic lighting, 8k resolution"
+      "narration": "혹시 오늘도 아무것도 한 게 없다고 자책하며 잠들고 계신가요?",
+      "image_prompt": "Cinematic vertical 9:16 photo of a lonely person looking out a rain-streaked window at night, dim moody lighting, 8k resolution"
     },
     {
       "scene_number": 2,
-      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 우리는 삶이 짧다고 불평하면서도, 마치 삶이 끝없기라도 한 듯 행동한다고 말이죠.",
-      "image_prompt": "A thoughtful ancient Roman philosopher statue silhouette against a warm dramatic sunset background, vertical 9:16 ratio, moody aesthetic"
+      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 삶이 짧은 게 아니라, 우리가 낭비하고 있을 뿐이라고요.",
+      "image_prompt": "A thoughtful ancient Roman philosopher statue silhouette in dramatic lighting, vertical 9:16 ratio, moody aesthetic"
     },
     {
       "scene_number": 3,
-      "narration": "시간이 부족한 게 아닙니다. 영원히 살 것처럼 미루고 있는 우리의 태도가 문제일 뿐입니다. 내일로 미루던 그 일을 지금 시작하세요.",
-      "image_prompt": "Inspiring landscape with golden hour sunlight breaking through dark clouds over a path, vertical 9:16 aspect ratio, dramatic view"
+      "narration": "흘러가는 시간 속에서 진정으로 내 삶을 채우고 있는지, 오늘 하루를 돌아보세요.",
+      "image_prompt": "Inspiring landscape with golden hour sunlight breaking through dark clouds over a vast horizon, vertical 9:16 aspect ratio"
     },
     {
       "scene_number": 4,
-      "narration": "오늘 당신의 시간을 가장 가치 있게 쓰는 법, 댓글로 남겨주세요. 구독하고 매일 진짜 삶을 시작하세요.",
-      "image_prompt": "Minimalist calm starry night sky with a single bright shooting star, vertical 9:16, peaceful and emotional vibe"
+      "narration": "오늘의 작은 태도가 내일의 시간을 바꿉니다. 당신의 소중한 오늘을 구독하세요.",
+      "image_prompt": "Minimalist calm starry night sky with a single glowing star, vertical 9:16, peaceful and emotional vibe"
     }
   ]
 }

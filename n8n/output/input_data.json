@@ -1,30 +1,30 @@
 {
   "quote_info": {
     "author": "세네카",
-    "quote_kr": "우리가 삶이 짧다고 불평하는 것이 아니라, 사실 우리가 삶을 그렇게 만드는 것이다.",
+    "quote_kr": "우리가 삶이 짧다고 불평하는 것은, 삶이 실제로 짧기 때문이 아니라 우리가 삶을 헛되이 보내기 때문이다.",
     "quote_en": "It is not that we have a short time to live, but that we waste a lot of it."
   },
-  "title": "당신이 매일 시간을 낭비하고 있다는 확실한 증거",
+  "title": "당신이 매일 밤 후회하는 진짜 이유",
   "scenes": [
     {
       "scene_number": 1,
-      "narration": "혹시 오늘도 시간이 너무 없다고 한숨 쉬지 않았나요? 틀렸습니다. 시간이 없는 게 아니라, 당신이 시간을 흘려보내고 있는 겁니다.",
-      "image_prompt": "Cinematic vertical 9:16 shot of an hourglass with sand rapidly falling, dark moody background, dramatic lighting, 8k resolution"
+      "narration": "혹시 오늘도 아무것도 한 게 없다고 자책하며 잠들고 계신가요?",
+      "image_prompt": "Cinematic vertical 9:16 photo of a lonely person looking out a rain-streaked window at night, dim moody lighting, 8k resolution"
     },
     {
       "scene_number": 2,
-      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 우리가 삶이 짧다고 불평하는 것이 아니라, 사실 우리가 삶을 그렇게 만드는 것이라고요.",
+      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 삶이 짧은 게 아니라, 우리가 낭비하고 있을 뿐이라고요.",
       "image_prompt": "A thoughtful ancient Roman philosopher statue silhouette in dramatic lighting, vertical 9:16 ratio, moody aesthetic"
     },
     {
       "scene_number": 3,
-      "narration": "우린 무의미한 걱정과 헛된 일에 가장 소중한 오늘을 허락하고 있습니다. 삶이 짧은 게 아니라, 우리가 삶을 낭비하고 있는 건 아닐까요?",
-      "image_prompt": "Inspiring landscape with golden hour sunlight breaking through dark clouds, vertical 9:16 aspect ratio, dramatic view"
+      "narration": "흘러가는 시간 속에서 진정으로 내 삶을 채우고 있는지, 오늘 하루를 돌아보세요.",
+      "image_prompt": "Inspiring landscape with golden hour sunlight breaking through dark clouds over a vast horizon, vertical 9:16 aspect ratio"
     },
     {
       "scene_number": 4,
-      "narration": "오늘 당신의 시간은 어디로 향하고 있나요? 이 영상이 마음에 든다면, 구독하고 진짜 내 삶을 시작하세요.",
-      "image_prompt": "Minimalist calm starry night sky with a single shooting star, vertical 9:16, peaceful and emotional vibe"
+      "narration": "오늘의 작은 태도가 내일의 시간을 바꿉니다. 당신의 소중한 오늘을 구독하세요.",
+      "image_prompt": "Minimalist calm starry night sky with a single glowing star, vertical 9:16, peaceful and emotional vibe"
     }
   ]
 }
