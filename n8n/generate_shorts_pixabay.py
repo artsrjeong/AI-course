@@ -17,6 +17,8 @@ PIXABAY_API_KEY = "58000181-56d7c060e1abab72e931c6837"
 def create_shorts_from_scenes(
     assets_dir="output/assets", output_path="final_shorts.mp4"
 ):
+    target_width = 1080
+    target_height = 1920
     clip_list = []
     scene_index = 1
 
@@ -36,7 +38,21 @@ def create_shorts_from_scenes(
         duration = audio_clip.duration
 
         # 2. 이미지를 오디오 길이만큼 보여주도록 설정
-        image_clip = ImageClip(img_path).with_duration(duration)
+        image_clip = ImageClip(img_path)
+        scale = max(
+            target_width / image_clip.w,
+            target_height / image_clip.h,
+        )
+        image_clip = (
+            image_clip.resized(scale)
+            .cropped(
+                width=target_width,
+                height=target_height,
+                x_center=image_clip.w * scale / 2,
+                y_center=image_clip.h * scale / 2,
+            )
+            .with_duration(duration)
+        )
 
         # 3. 이미지와 오디오를 결합하여 하나의 서브 클립 생성
         video_clip = image_clip.with_audio(audio_clip)

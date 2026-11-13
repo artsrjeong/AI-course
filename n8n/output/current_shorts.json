@@ -1,30 +1,30 @@
 {
   "quote_info": {
     "author": "세네카",
-    "quote_kr": "우리가 삶이 짧다고 불평하는 것은, 삶이 실제로 짧기 때문이 아니라 우리가 삶을 헛되이 보내기 때문이다.",
+    "quote_kr": "우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝나지 않을 것처럼 행동한다.",
     "quote_en": "It is not that we have a short time to live, but that we waste a lot of it."
   },
-  "title": "당신이 매일 밤 후회하는 진짜 이유",
+  "title": "당신이 오늘 허투루 흘려보낸 시간에 대하여",
   "scenes": [
     {
       "scene_number": 1,
-      "narration": "혹시 오늘도 아무것도 한 게 없다고 자책하며 잠들고 계신가요?",
-      "image_prompt": "Cinematic vertical 9:16 photo of a lonely person looking out a rain-streaked window at night, dim moody lighting, 8k resolution"
+      "narration": "만약 당신에게 주어진 시간이 딱 하루밖에 남지 않았다면, 지금 이 순간에도 스마트폰을 보고 계실 건가요?",
+      "image_prompt": "lonely clock"
     },
     {
       "scene_number": 2,
-      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 삶이 짧은 게 아니라, 우리가 낭비하고 있을 뿐이라고요.",
-      "image_prompt": "A thoughtful ancient Roman philosopher statue silhouette in dramatic lighting, vertical 9:16 ratio, moody aesthetic"
+      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 우리는 삶이 짧다고 불평하면서도, 마치 삶이 끝나지 않을 것처럼 행동한다고 말이죠.",
+      "image_prompt": "ancient statue"
     },
     {
       "scene_number": 3,
-      "narration": "흘러가는 시간 속에서 진정으로 내 삶을 채우고 있는지, 오늘 하루를 돌아보세요.",
-      "image_prompt": "Inspiring landscape with golden hour sunlight breaking through dark clouds over a vast horizon, vertical 9:16 aspect ratio"
+      "narration": "시간은 눈에 보이지 않기에 우리는 늘 영원히 살 것처럼 오늘을 낭비합니다. 하지만 가장 소중한 자원은 바로 지금 이 순간입니다.",
+      "image_prompt": "flowing sand"
     },
     {
       "scene_number": 4,
-      "narration": "오늘의 작은 태도가 내일의 시간을 바꿉니다. 당신의 소중한 오늘을 구독하세요.",
-      "image_prompt": "Minimalist calm starry night sky with a single glowing star, vertical 9:16, peaceful and emotional vibe"
+      "narration": "오늘이라는 소중한 선물에 감사하며, 후회 없는 하루를 보내세요. 당신의 내일을 응원합니다.",
+      "image_prompt": "sunrise horizon"
     }
   ]
 }

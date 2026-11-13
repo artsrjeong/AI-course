@@ -6,7 +6,7 @@ import requests
 # 1. 본인의 정보로 변경하세요
 rest_api_key = "06741192c11444ac734cfd757690fa81"  # 아까 확인하신 REST API 키
 redirect_uri = "https://localhost:3000"
-authorize_code = "MxSgUfGmtS4m5j2wiEMzoe1LXgZlUIwvVPMzwIgm4i2xFXQ8BwvZVAAAAAQKDRlTAAABobORIPRyxKx5jTsi9A" 
+authorize_code = "sqRQyfzlVgOewXEdRkmNkd2_x1Dd7dvlnEHa4s9dSUzkxyP6l1ZDeQAAAAQKFzXdAAABodNdFwbNsk3jZ7dWzg" 
 
 url = "https://kauth.kakao.com/oauth/token"
 data = {
