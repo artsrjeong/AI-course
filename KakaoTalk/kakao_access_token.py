@@ -6,7 +6,7 @@ import requests
 # 1. 본인의 정보로 변경하세요
 rest_api_key = "06741192c11444ac734cfd757690fa81"  # 아까 확인하신 REST API 키
 redirect_uri = "https://localhost:3000"
-authorize_code = "sqRQyfzlVgOewXEdRkmNkd2_x1Dd7dvlnEHa4s9dSUzkxyP6l1ZDeQAAAAQKFzXdAAABodNdFwbNsk3jZ7dWzg" 
+authorize_code = "s-ZHaL6apbnC0-K09oLNTlYApKkd2LXuozipEwEtovygxda-OlkNfAAAAAQKDSAbAAABodd_10XokopMIboAuA" 
 
 url = "https://kauth.kakao.com/oauth/token"
 data = {
@@ -21,7 +21,13 @@ tokens = response.json()
 
 # 2. 결과 확인
 if "access_token" in tokens:
-    print("\n[발급 성공] 아래 토큰을 저장해서 메시지 보낼 때 사용하세요:")
+    print("\n[발급 성공] 6시간짜리 토큰을 저장해서 메시지 보낼 때 사용하세요:")
     print(tokens["access_token"])
 else:
-    print("\n[발급 실패] 에러 메시지:", tokens)
+    print("\n[6개월 토큰 발급 실패] 에러 메시지:", tokens)
+
+if "refresh_token" in tokens:
+    print("\n[refresh token 발급 성공] 6개월짜리 토큰을 저장해서 메시지 보낼 때 사용하세요:")
+    print(tokens["refresh_token"])
+else:
+    print("\n[refresh token 발급 실패] 에러 메시지:", tokens)    

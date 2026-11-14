@@ -8,7 +8,7 @@ url = "https://kapi.kakao.com/v2/api/talk/memo/default/send"
 headers = {
   "Content-Type": "application/x-www-form-urlencoded",
   "Authorization": "Bearer " + \
-  "hPPXqrpzP3yp27XaNTmgEAIKPmvyfrtsAAAAAQoNFdgAAAGhUx9BbdQ0RDl69jWm"
+  "suIaZx1FzXMGbqTMJXSkwNH2Sb9wg0HSAAAAAQoNGVMAAAGh13iJJtQ0RDl69jWm"
 }
 
 data = {
