@@ -1,30 +1,30 @@
 {
   "quote_info": {
     "author": "세네카",
-    "quote_kr": "우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝나지 않을 것처럼 행동한다.",
-    "quote_en": "Life is long if you know how to use it."
+    "quote_kr": "우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝없이 이어진 것처럼 행동한다.",
+    "quote_en": "It is not that we have a short time to live, but that we waste a lot of it."
   },
-  "title": "내일 죽을 것처럼 오늘을 살고 있나요?",
+  "title": "당신이 오늘 허투루 흘려보낸 시간에 대하여",
   "scenes": [
     {
       "scene_number": 1,
-      "narration": "우리는 왜 매일 시간이 없다고 소리치면서, 가장 소중한 오늘을 흘려보내고 있을까요?",
-      "image_prompt": "hourglass sand"
+      "narration": "혹시 오늘 하루도 아무것도 이룬 게 없다고 자책하고 계신가요? 어쩌면 우리는, 가장 소중한 자원을 가장 낭비하고 있을지도 모릅니다.",
+      "image_prompt": "lonely clock"
     },
     {
       "scene_number": 2,
-      "narration": "고대 로마의 철학자 세네카는 이렇게 경고합니다. 우리가 삶이 짧다고 불평하면서도, 마치 삶이 끝나지 않을 것처럼 행동한다고 말이죠.",
+      "narration": "고대 로마의 철학자 세네카는 이렇게 말했습니다. 우리는 삶이 짧다고 불평하면서도, 마치 삶이 끝없이 이어진 것처럼 행동한다고 말이죠.",
       "image_prompt": "ancient philosopher"
     },
     {
       "scene_number": 3,
-      "narration": "시간은 늘 우리 곁에 머물지 않습니다. 미뤄두었던 마음, 지금 당장 시작하지 않으면 영원히 닿을 수 없습니다.",
-      "image_prompt": "sunset horizon"
+      "narration": "시간은 눈앞에서 모래처럼 빠져나갑니다. 내일이 당연하게 주어질 거라는 착각 속에서, 진정으로 사랑해야 할 순간들을 미루고 있지는 않나요?",
+      "image_prompt": "falling sand"
     },
     {
       "scene_number": 4,
-      "narration": "오늘이라는 영원한 기회를 놓치지 마세요. 당신의 심장이 뛰는 지금, 바로 그 순간을 사랑하세요.",
-      "image_prompt": "peaceful night"
+      "narration": "오늘이라는 시간은 다시 오지 않습니다. 지금 이 순간을 가장 뜨겁게 살아보세요. 당신의 내일을 응원합니다.",
+      "image_prompt": "sunset horizon"
     }
   ]
 }
