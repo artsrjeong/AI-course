@@ -8,3 +8,5 @@ __pycache__/
 *.pdf
 *.safetensors
 *.pt
+*.sqlite3
+*.bin
