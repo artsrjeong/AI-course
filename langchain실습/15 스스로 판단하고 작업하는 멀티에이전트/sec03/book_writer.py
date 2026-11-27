@@ -222,7 +222,7 @@ def vector_search_agent(state: State):
         args = tool_call["args"]
        
         query = args["query"] 
-        retrieved_docs = retrieve(args)
+        retrieved_docs = retrieve.invoke(args)
 		#① (1) 결과 담아 두기
         references["queries"].append(query) 
         references["docs"] += retrieved_docs
